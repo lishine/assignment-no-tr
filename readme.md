@@ -15,27 +15,28 @@ pnpm install
 cd backend
 pnpm install
 
-cd "../frontend"
+cd "frontend"
 pnpm install
 ```
 
 #### Running the Application
 
-**Backend Server:**
+**Backend:**
 
 ```bash
 pnpm docker:up
-cd app/backend
+cd backend
 pnpm dev
 ```
 
-🌐 **API Documentation:** `http://localhost:3100/`
-🌐 **Postgress Client:** `http://localhost:8080/`
+🌐 API Documentation: `http://localhost:3100/`
 
-**Frontend Development Server:**
+🌐 Postgress Client: `http://localhost:8080/`
+
+**Frontend:**
 
 ```bash
-cd app/frontend
+cd frontend
 pnpm dev
 ```
 
