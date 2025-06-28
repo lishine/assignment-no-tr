@@ -113,6 +113,40 @@ describe('polygonService', () => {
         })
     })
 
+    describe('getPolygonById', () => {
+        it('should return a polygon for a valid ID', async () => {
+            mockRepository.findById.mockResolvedValue(mockPolygon)
+
+            const result = await polygonService.getPolygonById(1)
+
+            expect(mockRepository.findById).toHaveBeenCalledWith(1)
+            expect(result.success).toBe(true)
+            expect(result.statusCode).toBe(StatusCodes.OK)
+            expect(result.message).toBe('Polygon retrieved successfully')
+            expect(result.responseObject).toEqual(mockPolygon)
+        })
+
+        it('should return not found for non-existent ID', async () => {
+            mockRepository.findById.mockResolvedValue(null)
+
+            const result = await polygonService.getPolygonById(999)
+
+            expect(result.success).toBe(false)
+            expect(result.statusCode).toBe(StatusCodes.NOT_FOUND)
+            expect(result.message).toBe('Polygon not found')
+        })
+
+        it('should handle repository errors when fetching by ID', async () => {
+            mockRepository.findById.mockRejectedValue(new Error('Database error'))
+
+            const result = await polygonService.getPolygonById(1)
+
+            expect(result.success).toBe(false)
+            expect(result.statusCode).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
+            expect(result.message).toBe('Database error')
+        })
+    })
+
     describe('deletePolygon', () => {
         it('should delete a polygon successfully', async () => {
             mockRepository.delete.mockResolvedValue(true)

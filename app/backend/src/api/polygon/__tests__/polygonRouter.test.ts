@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { StatusCodes } from 'http-status-codes'
 import request from 'supertest'
 import { app } from '../../../server'
-import { Polygon, CreatePolygon } from '../polygonModel'
+import { Polygon, CreatePolygon, UpdatePolygon } from '../polygonModel'
 import { ServiceResponse } from '../../../common/models/serviceResponse'
 import { polygonRepository } from '../polygonRepository'
 
@@ -113,6 +113,47 @@ describe('Polygon API Endpoints', () => {
             expect(responseBody.responseObject.length).toBe(2)
             comparePolygons(polygon1, responseBody.responseObject.find((p) => p.id === polygon1.id)!)
             comparePolygons(polygon2, responseBody.responseObject.find((p) => p.id === polygon2.id)!)
+        })
+    })
+
+    describe('GET /polygons/:id', () => {
+        it('should return a polygon for a valid ID', async () => {
+            const createdPolygon = await polygonRepository.create({
+                name: 'Specific Polygon',
+                points: [
+                    { x: 0, y: 0 },
+                    { x: 1, y: 1 },
+                    { x: 2, y: 0 },
+                ],
+            })
+
+            const response = await request(app).get(`/polygons/${createdPolygon.id}`)
+            const responseBody: ServiceResponse<Polygon> = response.body
+
+            expect(response.statusCode).toBe(StatusCodes.OK)
+            expect(responseBody.success).toBe(true)
+            expect(responseBody.message).toBe('Polygon retrieved successfully')
+            comparePolygons(createdPolygon, responseBody.responseObject)
+        })
+
+        it('should return not found for a non-existent ID', async () => {
+            const nonExistentId = 999
+            const response = await request(app).get(`/polygons/${nonExistentId}`)
+            const responseBody: ServiceResponse<null> = response.body
+
+            expect(response.statusCode).toBe(StatusCodes.NOT_FOUND)
+            expect(responseBody.success).toBe(false)
+            expect(responseBody.message).toBe('Polygon not found')
+        })
+
+        it('should return bad request for an invalid ID format', async () => {
+            const invalidId = 'not-a-number'
+            const response = await request(app).get(`/polygons/${invalidId}`)
+            const responseBody: ServiceResponse<null> = response.body
+
+            expect(response.statusCode).toBe(StatusCodes.BAD_REQUEST)
+            expect(responseBody.success).toBe(false)
+            expect(responseBody.message).toContain('Invalid input')
         })
     })
 

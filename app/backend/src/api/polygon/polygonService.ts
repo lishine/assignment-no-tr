@@ -33,6 +33,23 @@ export const polygonService = {
             )
         }
     },
+
+    async getPolygonById(id: number): Promise<ServiceResponse<Polygon>> {
+        try {
+            const polygon = await polygonRepository.findById(id)
+            if (!polygon) {
+                return ServiceResponse.failure<Polygon>('Polygon not found', {} as Polygon, StatusCodes.NOT_FOUND)
+            }
+            return ServiceResponse.success('Polygon retrieved successfully', polygon)
+        } catch (error) {
+            return ServiceResponse.failure<Polygon>(
+                error instanceof Error ? error.message : 'Failed to fetch polygon',
+                {} as Polygon,
+                StatusCodes.INTERNAL_SERVER_ERROR
+            )
+        }
+    },
+
     async deletePolygon(id: number): Promise<ServiceResponse<Polygon>> {
         try {
             const deleted = await polygonRepository.delete(id)

@@ -47,6 +47,19 @@ polygonRegistry.registerPath({
 })
 polygonRouter.get('/', polygonController.getAllPolygons)
 
+// GET /polygons/:id - Get a specific polygon
+polygonRegistry.registerPath({
+    method: 'get',
+    path: '/polygons/{id}',
+    tags: ['Polygon'],
+    request: { params: PolygonPathParamsSchema.shape.params },
+    responses: {
+        ...createApiResponse(PolygonSchema, 'Polygon retrieved successfully'),
+        ...createApiResponse(z.null(), 'Polygon not found', StatusCodes.NOT_FOUND),
+    },
+})
+polygonRouter.get('/:id', validateRequest(PolygonPathParamsSchema), polygonController.getPolygonById)
+
 // DELETE /polygons/:id - Remove a polygon
 polygonRegistry.registerPath({
     method: 'delete',

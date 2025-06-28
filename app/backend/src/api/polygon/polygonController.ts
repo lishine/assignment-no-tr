@@ -27,8 +27,24 @@ export const polygonController = {
         res.status(result.statusCode).json(result)
     },
 
+    async getPolygonById(req: Request, res: Response): Promise<void> {
+        try {
+            await api5000Delay()
+            const result = await polygonService.getPolygonById(Number(req.params.id))
+            res.status(result.statusCode).json(result)
+        } catch (error) {
+            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+                success: false,
+                message: error instanceof Error ? error.message : 'Failed to fetch polygon',
+                responseObject: null,
+                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+            })
+        }
+    },
+
     async deletePolygon(req: Request, res: Response): Promise<void> {
         try {
+            await api5000Delay()
             const result = await polygonService.deletePolygon(Number(req.params.id))
             res.status(result.statusCode).json(result)
         } catch (error) {
