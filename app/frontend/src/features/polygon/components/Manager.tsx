@@ -8,8 +8,6 @@ import { LoadingOverlay } from '../../../components/LoadingOverlay'
 export const Manager = () => {
     const { usePolygonStore } = useAccessPolygonStore()
     const isLoading = usePolygonStore((state) => state.isLoading)
-    const isAddingPolygon = usePolygonStore((state) => state.isAddingPolygon)
-    const isRemovingPolygon = usePolygonStore((state) => state.isRemovingPolygon)
     const error = usePolygonStore((state) => state.error)
     const isDrawing = usePolygonStore((state) => state.isDrawing)
     const currentPoints = usePolygonStore((state) => state.currentPoints)
@@ -44,7 +42,6 @@ export const Manager = () => {
     if (error) {
         return <p>Error fetching polygons: {error}</p>
     }
-    console.log({ isLoading: isLoading })
 
     return (
         <>
