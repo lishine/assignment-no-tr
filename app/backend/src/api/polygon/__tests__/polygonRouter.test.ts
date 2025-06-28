@@ -1,13 +1,17 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { StatusCodes } from 'http-status-codes'
 import request from 'supertest'
-
 import { app } from '../../../server'
 import { Polygon, CreatePolygon, UpdatePolygon } from '../polygonModel'
 import { ServiceResponse } from '../../../common/models/serviceResponse'
 import { polygonRepository } from '../polygonRepository'
 
+vi.mock('../../../common/delay', () => ({
+    api5000Delay: vi.fn().mockResolvedValue(undefined),
+}))
+
 describe('Polygon API Endpoints', () => {
+    // Clear polygons before each test to ensure a clean state
     beforeEach(async () => {
         const allPolygons = await polygonRepository.findAll()
         for (const polygon of allPolygons) {
@@ -230,7 +234,7 @@ describe('Polygon API Endpoints', () => {
 
             const response = await request(app).delete(`/polygons/${createdPolygon.id}`)
 
-            expect(response.statusCode).toBe(StatusCodes.NO_CONTENT)
+            expect(response.statusCode).toBe(StatusCodes.OK)
 
             // Verify it's actually deleted
             const findResponse = await request(app).get(`/polygons/${createdPolygon.id}`)

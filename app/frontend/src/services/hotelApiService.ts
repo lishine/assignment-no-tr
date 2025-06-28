@@ -1,7 +1,7 @@
 import { ofetch, FetchError } from 'ofetch'
 import type { AssignmentWithCharges, ServiceResponse } from '../types/hotel.types'
 
-const API_BASE_URL = 'http://localhost:8080'
+const API_BASE_URL = 'http://localhost:3100'
 
 export const hotelApiService = {
     fetchHotelProducts: async (): Promise<AssignmentWithCharges[]> => {

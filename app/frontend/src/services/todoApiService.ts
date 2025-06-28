@@ -1,7 +1,7 @@
 import { ofetch, FetchError } from 'ofetch'
 import type { TodoItem, ServiceResponse } from '../types/todo.types'
 
-const API_BASE_URL = 'http://localhost:8080' // As per instructions
+const API_BASE_URL = 'http://localhost:3100' // As per instructions
 
 export const todoApiService = {
     fetchTodos: async (): Promise<TodoItem[]> => {

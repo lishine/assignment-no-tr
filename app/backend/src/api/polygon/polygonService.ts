@@ -8,12 +8,19 @@ export const polygonService = {
         try {
             const validatedData = CreatePolygonSchema.parse(data)
             const polygon = await polygonRepository.create(validatedData)
-            return ServiceResponse.success('Polygon created successfully', polygon)
+            return ServiceResponse.success('Polygon created successfully', polygon, StatusCodes.CREATED)
         } catch (error) {
+            if (error instanceof Error && error.name === 'ZodError') {
+                return ServiceResponse.failure<Polygon>(
+                    error.message,
+                    {} as Polygon,
+                    StatusCodes.BAD_REQUEST
+                )
+            }
             return ServiceResponse.failure<Polygon>(
                 error instanceof Error ? error.message : 'Failed to create polygon',
                 {} as Polygon,
-                StatusCodes.BAD_REQUEST
+                StatusCodes.INTERNAL_SERVER_ERROR
             )
         }
     },
@@ -56,10 +63,17 @@ export const polygonService = {
             }
             return ServiceResponse.success('Polygon updated successfully', polygon)
         } catch (error) {
+            if (error instanceof Error && error.name === 'ZodError') {
+                return ServiceResponse.failure<Polygon>(
+                    error.message,
+                    {} as Polygon,
+                    StatusCodes.BAD_REQUEST
+                )
+            }
             return ServiceResponse.failure<Polygon>(
                 error instanceof Error ? error.message : 'Failed to update polygon',
                 {} as Polygon,
-                StatusCodes.BAD_REQUEST
+                StatusCodes.INTERNAL_SERVER_ERROR
             )
         }
     },

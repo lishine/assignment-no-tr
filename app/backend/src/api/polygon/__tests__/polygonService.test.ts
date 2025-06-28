@@ -59,7 +59,7 @@ describe('polygonService', () => {
 
             expect(mockRepository.create).toHaveBeenCalledWith(createDto)
             expect(result.success).toBe(true)
-            expect(result.statusCode).toBe(StatusCodes.OK)
+            expect(result.statusCode).toBe(StatusCodes.CREATED)
             expect(result.message).toBe('Polygon created successfully')
             expect(result.responseObject).toEqual(newPolygon)
         })
@@ -74,7 +74,7 @@ describe('polygonService', () => {
 
             expect(result.success).toBe(false)
             expect(result.statusCode).toBe(StatusCodes.BAD_REQUEST)
-            expect(result.message).toContain('Failed to create polygon')
+            expect(result.message).toContain('too_small')
         })
 
         it('should handle repository errors during creation', async () => {
@@ -83,7 +83,7 @@ describe('polygonService', () => {
             const result = await polygonService.createPolygon(createDto)
 
             expect(result.success).toBe(false)
-            expect(result.statusCode).toBe(StatusCodes.BAD_REQUEST)
+            expect(result.statusCode).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
             expect(result.message).toBe('Database error')
         })
     })
@@ -190,7 +190,7 @@ describe('polygonService', () => {
 
             expect(result.success).toBe(false)
             expect(result.statusCode).toBe(StatusCodes.BAD_REQUEST)
-            expect(result.message).toContain('Failed to update polygon')
+            expect(result.message).toContain('too_small')
         })
 
         it('should handle repository errors during update', async () => {
@@ -199,7 +199,7 @@ describe('polygonService', () => {
             const result = await polygonService.updatePolygon(1, updateDto)
 
             expect(result.success).toBe(false)
-            expect(result.statusCode).toBe(StatusCodes.BAD_REQUEST)
+            expect(result.statusCode).toBe(StatusCodes.INTERNAL_SERVER_ERROR)
             expect(result.message).toBe('Database error')
         })
     })

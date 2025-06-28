@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASE_URL="http://localhost:8080"
+BASE_URL="http://localhost:3100"
 TODO_ID_PLACEHOLDER="123e4567-e89b-12d3-a456-426614174000"
 USER_ID_PLACEHOLDER="1"
 POLYGON_ID_PLACEHOLDER="123e4567-e89b-12d3-a456-426614174001"
@@ -58,7 +58,7 @@ echo "### Create Polygon ###"
 # Expected: { "success": true, "message": "Polygon created successfully", "responseObject": { ...new_polygon }, "statusCode": 201 }
 http POST "${BASE_URL}/polygons" \
   name="P1" \
-  points:='[[12.3, 12.0], [16.3, 12.0], [16.3, 8.0], [12.3, 8.0]]'
+  points:='[{"x": 12.3, "y": 12.0}, {"x": 16.3, "y": 12.0}, {"x": 16.3, "y": 8.0}, {"x": 12.3, "y": 8.0}]'
 echo -e "\n"
 
 echo "### Get All Polygons ###"

@@ -19,7 +19,14 @@
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f postgres",
-    "psql": "docker exec -it backend-postgres-1 psql -U postgres -d polygon_db"
+    "docker:check-pg": "docker ps | grep postgres",
+    "docker:destroy": "docker-compose down --volumes --remove-orphans",
+    "db-connect": "docker exec -it backend-postgres-1 psql -U postgres -d polygon_db",
+    "db-list": "docker exec -it backend-postgres-1 psql -U postgres -d polygon_db -c \"SELECT * FROM polygons;\"",
+    "db-list-migrations": "docker exec -it backend-postgres-1 psql -U postgres -d polygon_db -c \"SELECT * FROM migrations;\"",
+    "db-structure": "docker exec -it backend-postgres-1 psql -U postgres -d polygon_db -c \"\\d polygons\"",
+    "db-count": "docker exec -it backend-postgres-1 psql -U postgres -d polygon_db -c \"SELECT COUNT(*) FROM polygons;\"",
+    "db:logs": "docker-compose logs postgres"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "7.3.4",

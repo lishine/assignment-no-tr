@@ -26,22 +26,3 @@ export const db = {
     },
     getClient: () => pool.connect(),
 }
-
-export const initDatabase = async () => {
-    const createPolygonsTable = `
-    CREATE TABLE IF NOT EXISTS polygons (
-      id SERIAL PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      points JSONB NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    );
-  `
-
-    try {
-        await db.query(createPolygonsTable)
-        console.log('✅ Database initialized successfully')
-    } catch (error) {
-        console.error('❌ Error initializing database:', error)
-        throw error
-    }
-}

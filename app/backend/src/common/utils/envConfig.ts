@@ -3,14 +3,15 @@ import { z } from 'zod'
 
 dotenv.config()
 
+const PORT = 3100
 const envSchema = z.object({
     NODE_ENV: z.enum(['development', 'production', 'test']).default('production'),
 
     HOST: z.string().min(1).default('localhost'),
 
-    PORT: z.coerce.number().int().positive().default(8080),
+    PORT: z.coerce.number().int().positive().default(PORT),
 
-    CORS_ORIGIN: z.string().url().default('http://localhost:8080'),
+    CORS_ORIGIN: z.string().url().default(`http://localhost:${PORT}`),
 
     COMMON_RATE_LIMIT_MAX_REQUESTS: z.coerce.number().int().positive().default(1000),
 
