@@ -1,6 +1,7 @@
 @baseUrl = http://localhost:8080
 @todoId = 123e4567-e89b-12d3-a456-426614174000
 @userId = 1
+@polygonId = 123e4567-e89b-12d3-a456-426614174001
 
 ###
 # Health Check
@@ -95,3 +96,41 @@ Content-Type: application/json
 # Delete Todo by ID
 # Expected: Empty body, Status 204 No Content
 DELETE {{baseUrl}}/todos/{{todoId}}
+
+###
+# Create Polygon
+# Expected ServiceResponse:
+# {
+#   "success": true,
+#   "message": "Polygon created successfully",
+#   "responseObject": {
+#     "id": "uuid",
+#     "name": "P1",
+#     "points": [[12.3, 12.0], [16.3, 12.0], [16.3, 8.0], [12.3, 8.0]],
+#     "created_at": "2025-06-28T09:00:00.000Z"
+#   },
+#   "statusCode": 201
+# }
+POST {{baseUrl}}/polygons
+Content-Type: application/json
+
+{
+  "name": "P1",
+  "points": [[12.3, 12.0], [16.3, 12.0], [16.3, 8.0], [12.3, 8.0]]
+}
+
+###
+# Get All Polygons
+# Expected ServiceResponse:
+# {
+#   "success": true,
+#   "message": "Polygons retrieved successfully",
+#   "responseObject": [ /* array of polygons */ ],
+#   "statusCode": 200
+# }
+GET {{baseUrl}}/polygons
+
+###
+# Delete Polygon by ID
+# Expected: Empty body, Status 204 No Content
+DELETE {{baseUrl}}/polygons/{{polygonId}}

@@ -7,11 +7,13 @@ import { openAPIRouter } from './api-docs/openAPIRouter'
 import { healthCheckRouter } from './api/healthCheck/healthCheckRouter'
 import { todoRouter } from './api/todo/todoRouter'
 import { userRouter } from './api/user/userRouter'
+import { hotelRouter } from './api/hotel/hotelRouter'
+import { polygonRouter } from './api/polygon/polygonRouter'
 import errorHandler from './common/middleware/errorHandler'
 import rateLimiter from './common/middleware/rateLimiter'
 import requestLogger from './common/middleware/requestLogger'
 import { env } from './common/utils/envConfig'
-import { hotelRouter } from './api/hotel/hotelRouter'
+import { initDatabase } from './db/config'
 
 const logger = pino({ name: 'server start' })
 const app: Express = express()
@@ -35,6 +37,13 @@ app.use('/users', userRouter)
 
 app.use('/todos', todoRouter)
 app.use('/hotel', hotelRouter)
+app.use('/polygons', polygonRouter)
+
+// Initialize database
+initDatabase().catch((error) => {
+    logger.error('Failed to initialize database:', error)
+    process.exit(1)
+})
 
 // Swagger UI
 app.use(openAPIRouter)

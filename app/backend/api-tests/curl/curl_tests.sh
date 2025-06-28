@@ -3,6 +3,7 @@
 BASE_URL="http://localhost:8080"
 TODO_ID_PLACEHOLDER="123e4567-e89b-12d3-a456-426614174000"
 USER_ID_PLACEHOLDER="1"
+POLYGON_ID_PLACEHOLDER="123e4567-e89b-12d3-a456-426614174001"
 
 # Expected ServiceResponse structure:
 # {
@@ -57,4 +58,22 @@ echo -e "\n"
 echo "### Delete Todo by ID ###"
 # Expected: Empty body, Status 204
 curl -X DELETE "${BASE_URL}/todos/${TODO_ID_PLACEHOLDER}" -v
+echo -e "\n"
+
+echo "### Create Polygon ###"
+# Expected: { "success": true, "message": "Polygon created successfully", "responseObject": { ...new_polygon }, "statusCode": 201 }
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"name": "P1", "points": [[12.3, 12.0], [16.3, 12.0], [16.3, 8.0], [12.3, 8.0]]}' \
+  "${BASE_URL}/polygons"
+echo -e "\n"
+
+echo "### Get All Polygons ###"
+# Expected: { "success": true, "message": "Polygons retrieved successfully", "responseObject": [ ...polygons ], "statusCode": 200 }
+curl -X GET "${BASE_URL}/polygons"
+echo -e "\n"
+
+echo "### Delete Polygon by ID ###"
+# Expected: Empty body, Status 204
+curl -X DELETE "${BASE_URL}/polygons/${POLYGON_ID_PLACEHOLDER}" -v
 echo -e "\n"
