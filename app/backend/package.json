@@ -18,7 +18,8 @@
     "check": "pnpm lint && pnpm format && pnpm build && pnpm test",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "docker:logs": "docker-compose logs -f postgres"
+    "docker:logs": "docker-compose logs -f postgres",
+    "psql": "docker exec -it backend-postgres-1 psql -U postgres -d polygon_db"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "7.3.4",
