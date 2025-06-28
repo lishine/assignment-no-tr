@@ -7,7 +7,7 @@ import { api5000Delay } from '../../common/delay'
 export const polygonController = {
     async createPolygon(req: Request, res: Response): Promise<void> {
         try {
-            api5000Delay()
+            await api5000Delay()
             const validatedData = CreatePolygonSchema.parse(req.body)
             const result = await polygonService.createPolygon(validatedData)
             res.status(result.statusCode).json(result)
@@ -22,13 +22,13 @@ export const polygonController = {
     },
 
     async getAllPolygons(_req: Request, res: Response): Promise<void> {
+        await api5000Delay()
         const result = await polygonService.getAllPolygons()
         res.status(result.statusCode).json(result)
     },
 
     async deletePolygon(req: Request, res: Response): Promise<void> {
         try {
-            api5000Delay()
             const result = await polygonService.deletePolygon(Number(req.params.id))
             res.status(result.statusCode).json(result)
         } catch (error) {
