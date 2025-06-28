@@ -1,6 +1,5 @@
 import { ofetch, FetchError } from 'ofetch'
-import type { Polygon, CreatePolygon } from '../types/polygon.types'
-import type { ServiceResponse } from '../types/todo.types' // Reusing ServiceResponse type
+import type { Polygon, CreatePolygon, ServiceResponse } from '../types/polygon.types'
 
 const API_BASE_URL = 'http://localhost:3100' // As per instructions
 

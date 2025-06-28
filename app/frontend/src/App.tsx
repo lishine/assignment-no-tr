@@ -1,7 +1,4 @@
-import React from 'react'
 import './App.css' // Keep global styles if any, or remove if not needed
-import Todos from './features/todo/Todos'
-import Hotel from './features/hotel/Hotel'
 import PolygonManager from './features/polygon/PolygonManager'
 
 const App = () => {
@@ -9,8 +6,6 @@ const App = () => {
         <>
             {/* Global styles can be placed here or in index.css / App.css */}
             <div className="container">
-                {/* <Todos /> */}
-                {/* <Hotel /> */}
                 <PolygonManager />
             </div>
             <style jsx global>{`

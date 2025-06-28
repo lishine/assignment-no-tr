@@ -14,3 +14,11 @@ export type CreatePolygon = {
     name: string
     points: Point[]
 }
+
+export interface ServiceResponse<T = unknown> {
+    // Using unknown for T default
+    success: boolean
+    message: string
+    responseObject: T
+    statusCode: number // Added statusCode as it's part of the backend response
+}

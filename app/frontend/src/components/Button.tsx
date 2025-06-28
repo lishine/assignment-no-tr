@@ -1,9 +1,6 @@
 import React from 'react'
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    children: React.ReactNode
-    // Add any other specific styling or behavior props here
-}
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & { children: React.ReactNode }
 
 const Button = ({ children, onClick, ...props }: ButtonProps) => {
     return (

@@ -1,8 +1,6 @@
 import React from 'react'
 
-type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
-    // Add any other specific styling or behavior props here
-}
+type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {}
 
 const Input = ({ value, onChange, placeholder, ...props }: InputProps) => {
     return (

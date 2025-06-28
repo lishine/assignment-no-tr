@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { StatusCodes } from 'http-status-codes'
 import request from 'supertest'
 import { app } from '../../../server'
-import { Polygon, CreatePolygon, UpdatePolygon } from '../polygonModel'
+import { Polygon, CreatePolygon } from '../polygonModel'
 import { ServiceResponse } from '../../../common/models/serviceResponse'
 import { polygonRepository } from '../polygonRepository'
 
