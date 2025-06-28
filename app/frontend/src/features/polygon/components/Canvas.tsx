@@ -1,14 +1,14 @@
-import React, { useRef, useEffect, useState } from 'react'
-import type { Point, Polygon } from '../../types/polygon.types'
-import { useAccessPolygonStore } from './polygonStore'
+import { useRef, useEffect, useState } from 'react'
+import type { Point, Polygon } from '../../../types/polygon.types'
+import { useAccessPolygonStore } from '../polygonStore'
 
-interface PolygonCanvasProps {
+type PolygonCanvasProps = {
     onCanvasClick: (event: React.MouseEvent<HTMLCanvasElement>) => void
     isDrawing: boolean
     currentPoints: Point[]
 }
 
-const PolygonCanvas: React.FC<PolygonCanvasProps> = ({ onCanvasClick, isDrawing, currentPoints }) => {
+export const PolygonCanvas = ({ onCanvasClick, isDrawing, currentPoints }: PolygonCanvasProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const { usePolygonStore } = useAccessPolygonStore()
     const polygons = usePolygonStore((state) => state.polygons)
@@ -128,14 +128,25 @@ const PolygonCanvas: React.FC<PolygonCanvasProps> = ({ onCanvasClick, isDrawing,
     }
 
     return (
-        <canvas
-            ref={canvasRef}
-            width={800}
-            height={600}
-            onClick={handleCanvasMouseDown}
-            style={{ border: '1px solid black' }}
-        />
+        <div>
+            <canvas
+                ref={canvasRef}
+                width={800}
+                height={600}
+                onClick={handleCanvasMouseDown}
+                style={{ border: '1px solid black' }}
+            />
+            <div>{isDrawing && <p className="drawing-message">Click on canvas to put points</p>}</div>
+
+            <style jsx>{`
+                .drawing-message {
+                    margin-top: 10px;
+                    color: green;
+                    font-style: italic;
+                    font-size: 18px;
+                }
+            }
+            `}</style>
+        </div>
     )
 }
-
-export default PolygonCanvas

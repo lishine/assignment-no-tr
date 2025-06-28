@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react'
-import { useAccessPolygonStore } from './polygonStore'
-import PolygonCanvas from './PolygonCanvas'
-import PolygonList from './PolygonList'
-import AddPolygonForm from './AddPolygonForm'
+import { useEffect } from 'react'
+import { useAccessPolygonStore } from '../polygonStore'
+import { PolygonCanvas } from './Canvas'
+import { PolygonList } from './List'
+import { AddPolygonForm } from './AddPolygonForm'
 
-const PolygonManager = () => {
+export const Manager = () => {
     const { usePolygonStore } = useAccessPolygonStore()
     const isLoading = usePolygonStore((state) => state.isLoading)
     const error = usePolygonStore((state) => state.error)
@@ -48,24 +48,22 @@ const PolygonManager = () => {
 
     return (
         <div className="polygon-manager-container">
-            <div className="canvas-section">
-                <PolygonCanvas onCanvasClick={handleCanvasClick} isDrawing={isDrawing} currentPoints={currentPoints} />
-                {isDrawing && currentPoints.length > 0 && (
-                    <button onClick={() => handleFinishDrawing(`Polygon ${Date.now()}`)}>Finish Drawing</button>
-                )}
-            </div>
             <div className="sidebar-section">
-                <h1>Polygons</h1>
+                <h1 className="sidebar-title">Polygons</h1>
                 <button onClick={startDrawing} disabled={isDrawing}>
                     Create New Polygon
                 </button>
-                <PolygonList />
-                {isDrawing && currentPoints.length >= 3 && (
-                    <AddPolygonForm onSave={handleFinishDrawing} onCancel={finishDrawing} />
-                )}
+                {!isDrawing && <PolygonList />}
+                {isDrawing && <AddPolygonForm onSave={handleFinishDrawing} onCancel={finishDrawing} />}
+            </div>
+            <div className="canvas-section">
+                <PolygonCanvas onCanvasClick={handleCanvasClick} isDrawing={isDrawing} currentPoints={currentPoints} />
             </div>
 
             <style jsx>{`
+                .sidebar-title {
+                    text-align: left;
+                }
                 .polygon-manager-container {
                     display: flex;
                     gap: 20px;
@@ -80,7 +78,7 @@ const PolygonManager = () => {
                     padding: 10px;
                     display: flex;
                     flex-direction: column;
-                    align-items: center;
+                    align-items: left;
                 }
                 .sidebar-section {
                     flex: 1;
@@ -111,5 +109,3 @@ const PolygonManager = () => {
         </div>
     )
 }
-
-export default PolygonManager

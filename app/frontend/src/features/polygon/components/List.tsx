@@ -1,12 +1,12 @@
-import React from 'react'
-import { useAccessPolygonStore } from './polygonStore'
+import { useAccessPolygonStore } from '../polygonStore'
 
-const PolygonList: React.FC = () => {
+export const PolygonList = () => {
     const { usePolygonStore } = useAccessPolygonStore()
     const polygons = usePolygonStore((state) => state.polygons)
     const removePolygon = usePolygonStore((state) => state.removePolygon)
     const selectedPolygonId = usePolygonStore((state) => state.selectedPolygonId)
     const setSelectedPolygonId = usePolygonStore((state) => state.setSelectedPolygonId)
+    const isDrawing = usePolygonStore((state) => state.isDrawing)
 
     const handleDelete = (id: number) => {
         if (window.confirm('Are you sure you want to delete this polygon?')) {
@@ -16,7 +16,7 @@ const PolygonList: React.FC = () => {
 
     return (
         <div className="polygon-list-container">
-            {polygons.length === 0 && <p>No polygons yet. Create one!</p>}
+            {!isDrawing && polygons.length === 0 && <p className="empty-message">No polygons yet. Create one!</p>}
             <ul>
                 {polygons.map((polygon) => (
                     <li
@@ -38,6 +38,10 @@ const PolygonList: React.FC = () => {
             </ul>
 
             <style jsx>{`
+                .empty-message {
+                    margin-top: 150px;
+                    color: #999;
+                }
                 .polygon-list-container {
                     margin-top: 20px;
                 }
@@ -79,5 +83,3 @@ const PolygonList: React.FC = () => {
         </div>
     )
 }
-
-export default PolygonList

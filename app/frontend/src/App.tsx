@@ -1,12 +1,12 @@
 import './App.css' // Keep global styles if any, or remove if not needed
-import PolygonManager from './features/polygon/PolygonManager'
+import { Manager } from './features/polygon/components/Manager'
 
 const App = () => {
     return (
         <>
             {/* Global styles can be placed here or in index.css / App.css */}
             <div className="container">
-                <PolygonManager />
+                <Manager />
             </div>
             <style jsx global>{`
                 body {

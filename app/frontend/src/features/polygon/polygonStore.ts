@@ -1,5 +1,5 @@
 import { useZustandCreate } from '../../utils/useZustandCreate'
-import type { Polygon, Point, CreatePolygon } from '../../types/polygon.types'
+import type { Polygon, Point } from '../../types/polygon.types'
 import { polygonApiService } from '../../services/polygonApiService'
 
 type PolygonState = {

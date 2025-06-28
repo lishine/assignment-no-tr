@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { useAccessPolygonStore } from '../polygonStore'
 
-interface AddPolygonFormProps {
+type AddPolygonFormProps = {
     onSave: (name: string) => void
     onCancel: () => void
 }
 
-const AddPolygonForm: React.FC<AddPolygonFormProps> = ({ onSave, onCancel }) => {
+export const AddPolygonForm = ({ onSave, onCancel }: AddPolygonFormProps) => {
     const [polygonName, setPolygonName] = useState('')
+    const { usePolygonStore } = useAccessPolygonStore()
+    const currentPoints = usePolygonStore((state) => state.currentPoints)
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault()
@@ -28,7 +31,9 @@ const AddPolygonForm: React.FC<AddPolygonFormProps> = ({ onSave, onCancel }) => 
                     onChange={(e) => setPolygonName(e.target.value)}
                     placeholder="Enter polygon name"
                 />
-                <button type="submit">Save Polygon</button>
+                <button type="submit" disabled={currentPoints.length < 3}>
+                    Save Polygon
+                </button>
                 <button type="button" onClick={onCancel}>
                     Cancel
                 </button>
@@ -65,6 +70,10 @@ const AddPolygonForm: React.FC<AddPolygonFormProps> = ({ onSave, onCancel }) => 
                     cursor: pointer;
                     font-size: 16px;
                 }
+                button[type='submit'][disabled] {
+                    background-color: #ccc;
+                    cursor: not-allowed;
+                }
                 button[type='submit'] {
                     background-color: #28a745;
                     color: white;
@@ -83,5 +92,6 @@ const AddPolygonForm: React.FC<AddPolygonFormProps> = ({ onSave, onCancel }) => 
         </div>
     )
 }
-
-export default AddPolygonForm
+function usePolygonStore(arg0: (state: any) => any) {
+    throw new Error('Function not implemented.')
+}
