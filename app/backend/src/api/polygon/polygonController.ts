@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { polygonService } from './polygonService'
-import { CreatePolygonSchema, UpdatePolygonSchema } from './polygonModel'
+import { CreatePolygonSchema } from './polygonModel'
 import { api5000Delay } from '../../common/delay'
 
 export const polygonController = {
@@ -24,37 +24,6 @@ export const polygonController = {
     async getAllPolygons(_req: Request, res: Response): Promise<void> {
         const result = await polygonService.getAllPolygons()
         res.status(result.statusCode).json(result)
-    },
-
-    async getPolygonById(req: Request, res: Response): Promise<void> {
-        try {
-            api5000Delay()
-            const result = await polygonService.getPolygonById(Number(req.params.id))
-            res.status(result.statusCode).json(result)
-        } catch (error) {
-            res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-                success: false,
-                message: error instanceof Error ? error.message : 'Failed to fetch polygon',
-                responseObject: null,
-                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-            })
-        }
-    },
-
-    async updatePolygon(req: Request, res: Response): Promise<void> {
-        try {
-            api5000Delay()
-            const validatedData = UpdatePolygonSchema.parse(req.body)
-            const result = await polygonService.updatePolygon(Number(req.params.id), validatedData)
-            res.status(result.statusCode).json(result)
-        } catch (error) {
-            res.status(StatusCodes.BAD_REQUEST).json({
-                success: false,
-                message: error instanceof Error ? error.message : 'Invalid update data',
-                responseObject: null,
-                statusCode: StatusCodes.BAD_REQUEST,
-            })
-        }
     },
 
     async deletePolygon(req: Request, res: Response): Promise<void> {

@@ -21,7 +21,6 @@ const App = () => {
                     box-sizing: border-box;
                 }
             `}</style>
-            <Hotel />
         </>
     )
 }

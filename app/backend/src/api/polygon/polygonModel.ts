@@ -10,8 +10,6 @@ export const CreatePolygonSchema = z.object({
     points: z.array(PolygonPointSchema).min(3),
 })
 
-export const UpdatePolygonSchema = CreatePolygonSchema.partial()
-
 export const PolygonSchema = z.object({
     id: z.number(),
     name: z.string(),
@@ -28,8 +26,6 @@ export const PolygonPathParamsSchema = z.object({
 
 export type Point = z.infer<typeof PolygonPointSchema>
 export type CreatePolygon = z.infer<typeof CreatePolygonSchema>
-export type UpdatePolygon = z.infer<typeof UpdatePolygonSchema>
-
 export interface Polygon {
     id: number
     name: string

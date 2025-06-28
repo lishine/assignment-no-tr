@@ -6,7 +6,7 @@ import { StatusCodes } from 'http-status-codes'
 import { createApiResponse } from '../../api-docs/openAPIResponseBuilders'
 import { validateRequest } from '../../common/utils/httpHandlers'
 import { polygonController } from './polygonController'
-import { CreatePolygonSchema, PolygonSchema, UpdatePolygonSchema, PolygonPathParamsSchema } from './polygonModel'
+import { CreatePolygonSchema, PolygonSchema, PolygonPathParamsSchema } from './polygonModel'
 
 export const polygonRegistry = new OpenAPIRegistry()
 export const polygonRouter: Router = express.Router()
@@ -46,50 +46,6 @@ polygonRegistry.registerPath({
     responses: createApiResponse(z.array(PolygonSchema), 'Polygons retrieved successfully'),
 })
 polygonRouter.get('/', polygonController.getAllPolygons)
-
-// GET /polygons/:id - Get a specific polygon
-polygonRegistry.registerPath({
-    method: 'get',
-    path: '/polygons/{id}',
-    tags: ['Polygon'],
-    request: { params: PolygonPathParamsSchema.shape.params },
-    responses: {
-        ...createApiResponse(PolygonSchema, 'Polygon retrieved successfully'),
-        ...createApiResponse(z.null(), 'Polygon not found', StatusCodes.NOT_FOUND),
-    },
-})
-polygonRouter.get('/:id', validateRequest(PolygonPathParamsSchema), polygonController.getPolygonById)
-
-// PUT /polygons/:id - Update a polygon
-polygonRegistry.registerPath({
-    method: 'put',
-    path: '/polygons/{id}',
-    tags: ['Polygon'],
-    request: {
-        params: PolygonPathParamsSchema.shape.params,
-        body: {
-            content: {
-                'application/json': {
-                    schema: UpdatePolygonSchema,
-                },
-            },
-        },
-    },
-    responses: {
-        ...createApiResponse(PolygonSchema, 'Polygon updated successfully'),
-        ...createApiResponse(
-            z.object({ message: z.string(), errors: z.any().optional() }),
-            'Invalid request body',
-            StatusCodes.BAD_REQUEST
-        ),
-        ...createApiResponse(z.null(), 'Polygon not found', StatusCodes.NOT_FOUND),
-    },
-})
-polygonRouter.put(
-    '/:id',
-    validateRequest(z.object({ params: PolygonPathParamsSchema.shape.params, body: UpdatePolygonSchema })),
-    polygonController.updatePolygon
-)
 
 // DELETE /polygons/:id - Remove a polygon
 polygonRegistry.registerPath({
