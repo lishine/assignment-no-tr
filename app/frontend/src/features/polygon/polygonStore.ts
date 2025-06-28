@@ -32,13 +32,16 @@ export const useAccessPolygonStore = () => {
                 set({ isLoading: true, error: null })
                 try {
                     const polygons = await polygonApiService.fetchPolygons()
-                    set({ polygons, isLoading: false })
+                    set({ polygons })
                 } catch (err) {
-                    set({ error: (err as Error).message || 'Failed to fetch polygons', isLoading: false })
+                    set({ error: (err as Error).message || 'Failed to fetch polygons' })
+                } finally {
+                    set({ isLoading: false })
                 }
             },
 
             addPolygon: async (name: string, points: Point[]) => {
+                set({ isLoading: true })
                 try {
                     const newPolygon = await polygonApiService.createPolygon({ name, points })
                     set((state) => ({
@@ -46,10 +49,13 @@ export const useAccessPolygonStore = () => {
                     }))
                 } catch (err) {
                     console.error('Failed to add polygon:', err)
+                } finally {
+                    set({ isLoading: false })
                 }
             },
 
             removePolygon: async (id: number) => {
+                set({ isLoading: true })
                 try {
                     await polygonApiService.deletePolygon(id)
                     set((state) => ({
@@ -57,6 +63,8 @@ export const useAccessPolygonStore = () => {
                     }))
                 } catch (err) {
                     console.error('Failed to remove polygon:', err)
+                } finally {
+                    set({ isLoading: false })
                 }
             },
 

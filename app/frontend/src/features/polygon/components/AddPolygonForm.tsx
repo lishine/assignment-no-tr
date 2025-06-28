@@ -78,20 +78,17 @@ export const AddPolygonForm = ({ onSave, onCancel }: AddPolygonFormProps) => {
                     background-color: #28a745;
                     color: white;
                 }
-                button[type='submit']:hover {
+                button[type='submit'][not:disabled]:hover {
                     background-color: #218838;
                 }
                 button[type='button'] {
                     background-color: #6c757d;
                     color: white;
                 }
-                button[type='button']:hover {
+                button[type='button'][not:disabled]:hover {
                     background-color: #5a6268;
                 }
             `}</style>
         </div>
     )
-}
-function usePolygonStore(arg0: (state: any) => any) {
-    throw new Error('Function not implemented.')
 }
